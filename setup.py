@@ -9,4 +9,10 @@ setup(
     packages=find_packages(),
     install_requires=['click', 'flask'],
     tests_require=['pytest', 'pytest-cov'],
+    entry_points='''
+        [console_scripts]
+        run_webserver=BaMMI.website:cli
+        upload_thought=BaMMI.client:cli
+        run_server=BaMMI.server:cli
+    '''
 )
