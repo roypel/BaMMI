@@ -3,7 +3,7 @@ import struct
 
 import pytest
 
-from thought import Thought
+from BaMMI.thought import Thought
 
 
 user_id = 1

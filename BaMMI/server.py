@@ -54,8 +54,8 @@ def ensure_dir(dir_path):
         makedirs(full_path)
 
 
-@click.command
-@click.option()
+# @click.command
+# @click.option()
 def run(address, data):
     ip, port = address.split(':')
     port = int(port)

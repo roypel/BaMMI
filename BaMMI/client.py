@@ -1,13 +1,13 @@
 import datetime as dt
 import socket
-from cli import CommandLineInterface
-from connection import Connection
-from thought import Thought
+# from cli import CommandLineInterface
+from .utils.connection import Connection
+from .thought import Thought
 
-cli = CommandLineInterface()
+# cli = CommandLineInterface()
 
 
-@cli.command
+# @cli.command
 def upload(address, user, thought):
     ip, port = address.split(':')
     port = int(port)
@@ -34,5 +34,5 @@ def main(argv):
         return 1
 
 
-if __name__ == '__main__':
-    cli.main()
+# if __name__ == '__main__':
+#     cli.main()
