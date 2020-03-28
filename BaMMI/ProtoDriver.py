@@ -29,6 +29,13 @@ class ProtoDriver:
             else:  # EOF reached, no more snapshots
                 break
 
+    def get_user_data_ready_to_send(self):
+        return self.user.SerializeToString()
+
+    @staticmethod
+    def get_data_content_type():
+        return 'application/protobuf'
+
 
 def _read_message_length(f):
     return _read_bytes_as_format_from_file(f, 4, 'I')

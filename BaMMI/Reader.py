@@ -10,8 +10,11 @@ class Reader:
     def _read_file_data(self):
         self.reader_driver.read_file_data()
 
-    def get_user_data(self):
-        return
+    def get_user_data_ready_to_send(self):
+        return self.reader_driver.get_user_data_ready_to_send()
+
+    def get_data_content_type(self):
+        return self.reader_driver.get_data_content_type()
 
 
 def find_reader_driver(file_path):
