@@ -32,6 +32,9 @@ class ProtoDriver:
     def get_user_data_ready_to_send(self):
         return self.user.SerializeToString()
 
+    def generate_snapshot_data_ready_to_send(self):
+        return (snapshot.SerializeToString() for snapshot in self.snapshots)
+
     @staticmethod
     def get_data_content_type():
         return 'application/protobuf'

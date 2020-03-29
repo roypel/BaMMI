@@ -16,6 +16,9 @@ class Reader:
     def get_data_content_type(self):
         return self.reader_driver.get_data_content_type()
 
+    def generate_snapshot_data_ready_to_send(self):
+        return self.reader_driver.generate_snapshot_data_ready_to_send()
+
 
 def find_reader_driver(file_path):
     drivers = {'.mind.gz': ProtoDriver.ProtoDriver}
