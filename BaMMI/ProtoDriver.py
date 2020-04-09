@@ -5,35 +5,38 @@ from BaMMI.BaMMI_pb2 import User, Snapshot
 
 class ProtoDriver:
     def __init__(self, file_path):
-        self.file_path = file_path
+        self.f = gzip.open(file_path, 'rb')
         self.user = None
-        self.snapshots = []
 
-    def read_file_data(self):
-        with gzip.open(self.file_path) as f:
-            self.read_user_data(f)
-            self.read_snapshots_data(f)
+    def close(self):
+        if self.f:
+            self.f.close()
+            self.f = None
 
-    def read_user_data(self, f):
-        user_data_length = _read_message_length(f)
-        self.user = User()
-        self.user.ParseFromString(f.read(user_data_length))
-
-    def read_snapshots_data(self, f):
-        while True:
-            snapshot_length = _read_message_length(f)
-            if snapshot_length:
-                snapshot = Snapshot()
-                snapshot.ParseFromString(f.read(snapshot_length))
-                self.snapshots.append(snapshot)
-            else:  # EOF reached, no more snapshots
-                break
+    def read_file_data_to_send(self):
+        self.get_user_data_ready_to_send()
+        self.generate_snapshot_data_ready_to_send()
 
     def get_user_data_ready_to_send(self):
-        return self.user.SerializeToString()
+        if self.f:
+            user_data_length = _read_message_length(self.f)
+            user = User()
+            user.ParseFromString(self.f.read(user_data_length))
+            return user.SerializeToString()
 
-    def generate_snapshot_data_ready_to_send(self):
-        return (snapshot.SerializeToString() for snapshot in self.snapshots)
+    def generate_snapshot_data_ready_to_send(self, server_accepted_fields):
+        while self.f:
+            snapshot_length = _read_message_length(self.f)
+            if snapshot_length:
+                snapshot = Snapshot()
+                snapshot.ParseFromString(self.f.read(snapshot_length))
+                for field in snapshot.ListFields():
+                    field_name = field[0].name
+                    if field_name not in server_accepted_fields:
+                        snapshot.ClearField(field_name)
+                yield snapshot.SerializeToString()
+            else:  # EOF reached, no more snapshots
+                break
 
     @staticmethod
     def get_data_content_type():
