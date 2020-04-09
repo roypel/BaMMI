@@ -13,16 +13,22 @@ class ProtoDriver:
             self.f.close()
             self.f = None
 
-    def read_file_data_to_send(self):
-        self.get_user_data_ready_to_send()
-        self.generate_snapshot_data_ready_to_send()
+    # def read_file_data_to_send(self):
+    #     self.get_user_data_ready_to_send()
+    #     self.generate_snapshot_data_ready_to_send()
 
-    def get_user_data_ready_to_send(self):
-        if self.f:
+    def get_user_data(self):
+        if self.user is None and not self.f:
+            raise RuntimeError("User data wasn't saved before file closed")
+        if self.user is None:  # If we got here, self.f is already opened
             user_data_length = _read_message_length(self.f)
             user = User()
             user.ParseFromString(self.f.read(user_data_length))
-            return user.SerializeToString()
+            self.user = user
+        return self.user
+
+    def get_user_data_ready_to_send(self):
+        return self.get_user_data().SerializeToString()
 
     def generate_snapshot_data_ready_to_send(self, server_accepted_fields):
         while self.f:
