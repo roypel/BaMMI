@@ -36,7 +36,7 @@ def create_app(test_config=None):
         print(request.form['foo'])  # should display 'bar'
         return 'Received !'  # response to your request.
 
-    from . import Reciever
+    from BaMMI.ServerSide import Reciever
     app.register_blueprint(Reciever.bp)
 
     return app
@@ -95,3 +95,7 @@ class Website:
             httpd.serve_forever()
         except KeyboardInterrupt:
             httpd.socket.close()
+
+
+app = create_app()
+app.run(debug=True, use_reloader=False)

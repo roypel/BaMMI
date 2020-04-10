@@ -13,3 +13,5 @@ def parse_color_image(context, snapshot):
     image.putdata(image_data)
     image.save(path)
 
+
+parse_color_image.field = 'color_image'

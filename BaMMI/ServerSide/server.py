@@ -50,12 +50,6 @@ def get_user_data(connection):
     return timestamp_vec6_format, user_id, thought
 
 
-def ensure_dir(dir_path):
-    full_path = path.expanduser(dir_path)
-    if not path.isdir(full_path):
-        makedirs(full_path)
-
-
 # @click.command
 # @click.option()
 def run(address, data):
