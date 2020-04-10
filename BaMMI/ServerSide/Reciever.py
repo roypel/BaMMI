@@ -4,7 +4,7 @@ from BaMMI.BaMMI_pb2 import Snapshot, User
 
 bp = Blueprint('recieve_data', __name__, url_prefix='/transfers')
 available_parsers_list = ['pose', 'color_image', 'feelings']
-user_list = []
+known_users = {}
 
 
 @bp.route('/config', methods=['GET'])
@@ -17,9 +17,9 @@ def receive_user_data():
     user_data = request.data
     user = User()
     user.ParseFromString(user_data)
-    user_list.append(user)
+    known_users[user.user_id] = user
     with open('./log.txt', 'w') as f:
-        print(user_list, file=f)
+        print(known_users, file=f)
     return jsonify(success=True)
 
 
@@ -31,3 +31,4 @@ def receive_snapshot_data():
     snapshot.ParseFromString(snapshot_data)
     with open('./snapshots', 'a') as f:
         print([user_id, snapshot], file=f)
+    return jsonify(success=True)
