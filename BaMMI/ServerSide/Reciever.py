@@ -1,9 +1,10 @@
 import json
-from flask import Blueprint, jsonify, request, url_for
+from flask import Blueprint, jsonify, request
 import numpy as np
 from BaMMI.BaMMI_pb2 import Snapshot, User
 from google.protobuf.json_format import MessageToDict
 from BaMMI.ServerSide import Utils
+from BaMMI.ServerSide.PubSuber import PubSuber
 
 
 bp = Blueprint('recieve_data', __name__, url_prefix='/transfers')
@@ -36,8 +37,9 @@ def receive_snapshot_data():
     snapshot = Snapshot()
     snapshot.ParseFromString(snapshot_data)
     data_to_publish = prepare_data_for_queue(user_id, snapshot)
-    with open('./snapshots', 'a') as f:
-        print([known_users[user_id], data_to_publish], file=f)
+    publisher = PubSuber('rabbitmq://127.0.0.1:5672/')
+    publisher.init_exchange('snapshots_data', exchange_type='topic')
+    publisher.publish_message(json.dumps(**known_users[user_id], **data_to_publish), '.'.join(data_to_publish.keys()))
     return jsonify(success=True)
 
 
@@ -67,5 +69,5 @@ def prepare_data_for_queue(user_id, data):
     data_to_publish = MessageToDict(data, preserving_proto_field_name=True)
     for field in file_paths_data:
         data_to_publish[field]['data'] = file_paths_data[field]
-    return json.dumps(data_to_publish)
+    return data_to_publish
     # TODO: In case data comes in other options, convert it to a valid json
