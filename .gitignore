@@ -1,2 +1,8 @@
 /.env
 /.idea
+/sample.mind/sample.mind
+/sample.mind.gz
+/cortex.proto
+/BaMMI/cortex.proto
+/venv/
+**/__pycache__/
