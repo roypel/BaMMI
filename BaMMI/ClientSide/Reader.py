@@ -1,4 +1,4 @@
-import BaMMI.ProtoDriver as ProtoDriver
+import BaMMI.ClientSide.ProtoDriver as ProtoDriver
 
 
 class Reader:

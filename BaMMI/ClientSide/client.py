@@ -1,8 +1,6 @@
-import datetime as dt
 # from cli import CommandLineInterface
 # from .Reader import Reader
-from BaMMI.Reader import Reader
-from BaMMI.thought import Thought
+from BaMMI.ClientSide.Reader import Reader
 from BaMMI.utils.connection import get_from_url, post_from_url
 
 # cli = CommandLineInterface()
@@ -33,4 +31,4 @@ def send_snapshots_data(url: str, reader: Reader, server_accepted_fields: list):
                                     'user-id': str(user_id)}, data=snapshot)
 
 
-upload_sample('127.0.0.1', 5000, r"C:\Developing\BaMMI\sample.mind.gz")
+upload_sample('127.0.0.1', 5000, r"/sample.mind.gz")

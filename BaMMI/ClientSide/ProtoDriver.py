@@ -13,10 +13,6 @@ class ProtoDriver:
             self.f.close()
             self.f = None
 
-    # def read_file_data_to_send(self):
-    #     self.get_user_data_ready_to_send()
-    #     self.generate_snapshot_data_ready_to_send()
-
     def get_user_data(self):
         if self.user is None and not self.f:
             raise RuntimeError("User data wasn't saved before file closed")
