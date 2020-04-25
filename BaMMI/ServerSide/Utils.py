@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 
 
 def ensure_dir(dir_path):
@@ -16,3 +17,11 @@ def save_data_to_file(data, file_path, data_type=''):
 def build_path_for_files_from_data(base_path, user_id, snapshot_data, filename):
     timestamp = str(snapshot_data.datetime)
     return os.path.join(base_path, user_id, timestamp, filename)
+
+
+def find_driver(drivers, url):
+    url_scheme = urlparse(url).scheme
+    for scheme, cls in drivers.items():
+        if url_scheme.lower() == scheme.lower():
+            return cls(url)
+    raise ValueError("Unknown type of URL was given")

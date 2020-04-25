@@ -7,7 +7,6 @@ from flask import Flask, request
 from BaMMI.utils.listener import Listener
 
 
-
 class Handler(threading.Thread):
     lock = threading.Lock()
 

@@ -1,5 +1,5 @@
-from urllib.parse import urlparse
 import BaMMI.ServerSide.RabbitDriver as RabbitDriver
+from BaMMI.ServerSide.Utils import find_driver
 
 """
 At first, I thought about separating the modules to Publisher and Subscriber,
@@ -34,7 +34,4 @@ class PubSuber:
 
 def find_pub_sub_driver(url: str):
     drivers = {'rabbitmq': RabbitDriver.RabbitDriver}
-    url_scheme = urlparse(url).scheme
-    for scheme, cls in drivers.items():
-        if url_scheme.lower() == scheme.lower():
-            return cls(url)
+    return find_driver(drivers, url)
