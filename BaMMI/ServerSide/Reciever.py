@@ -39,7 +39,7 @@ def receive_snapshot_data():
     data_to_publish = prepare_data_for_queue(user_id, snapshot)
     publisher = PubSuber('rabbitmq://127.0.0.1:5672/')
     publisher.init_exchange('snapshots_data', exchange_type='topic')
-    publisher.publish_message(json.dumps({**known_users[user_id], **data_to_publish}), '.'.join(data_to_publish.keys()))
+    publisher.publish_message(json.dumps({'user_data': known_users[user_id], 'snapshot_data': data_to_publish}), '.'.join(data_to_publish.keys()))
     return jsonify(success=True)
 
 

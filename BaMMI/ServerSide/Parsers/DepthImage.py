@@ -9,6 +9,7 @@ def parse_depth_image(context, snapshot):
     depth_image = np.array(snapshot.depth_image.data, dtype=float)
     depth_image = np.reshape(depth_image, (snapshot.depth_image.height, snapshot.depth_image.width))
     plt.imsave(path, depth_image, cmap='hot')
+    return path
 
 
 parse_depth_image.field = 'depth_image'

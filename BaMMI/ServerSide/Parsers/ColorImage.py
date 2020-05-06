@@ -12,6 +12,7 @@ def parse_color_image(context, snapshot):
     image = PILIm.new('RGB', size)
     image.putdata(image_data)
     image.save(path)
+    return path
 
 
 parse_color_image.field = 'color_image'
