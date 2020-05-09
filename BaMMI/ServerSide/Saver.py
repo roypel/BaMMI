@@ -1,5 +1,6 @@
-from BaMMI.ServerSide.PubSuber import PubSuber
 from BaMMI.ServerSide.DBWrapper import DBWrapper
+from BaMMI.ServerSide.PubSuber import PubSuber
+from BaMMI.ServerSide.Utils import extract_json_from_raw_data
 
 
 class Saver:
@@ -11,7 +12,10 @@ class Saver:
 
     def save(self, topic_name, data):
         if topic_name in self.known_fields:
-            self.db_con.upsert_data_unit(topic_name, data)
+            user_data, snapshot_data = extract_json_from_raw_data(data)
+            update_key = {'user_id': user_data['user_id'], 'datetime': snapshot_data['datetime']}
+
+            self.db_con.upsert_data_unit(update_key, data)
         else:
             raise ValueError(f"Unknown field {topic_name}")
 
