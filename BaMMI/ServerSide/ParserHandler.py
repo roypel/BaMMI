@@ -3,7 +3,9 @@ import inspect
 import json
 import pathlib
 import sys
+from BaMMI.ServerSide.Context import Context
 from BaMMI.ServerSide.PubSuber import PubSuber
+from BaMMI.ServerSide.Utils import extract_json_from_raw_data
 
 
 class ParserHandler:
@@ -38,19 +40,19 @@ class ParserHandler:
             self.parsers[field] = [func]
 
     def parse(self, field_name, raw_data):
-        json_data = json.loads(raw_data)
-        user_data = json_data['user_data']
-        snapshot_data = json_data['snapshot_data']
+        user_data, snapshot_data = extract_json_from_raw_data(raw_data)
+        # TODO: Make base path something reasonable
+        context = Context('./', user_data, snapshot_data)
         if field_name not in self.parsers:
             raise ModuleNotFoundError(f"Parser for {field_name} is not found")
         if len(self.parsers[field_name]) > 1:
             # In case there's a few parsers for a certain field
             parser_results = []
             for func in self.parsers[field_name]:
-                parser_results.append(func(snapshot_data))
+                parser_results.append(func(context, snapshot_data))
         else:
-            parser_results = self.parsers[field_name][0](snapshot_data)
-        return {'user_data': user_data, field_name: parser_results}
+            parser_results = self.parsers[field_name][0](context, snapshot_data)
+        return {'user_data': user_data, 'snapshot_data': parser_results}
 
     def run_parser(self, field_name, mq_url):
         subscriber = PubSuber(mq_url)
@@ -63,7 +65,7 @@ class ParserHandler:
         )
 
     def _forward_parsing(self, field_name, data, publisher):
-        parser_results = self.parse(field_name, data)
+        parser_results = json.dumps(self.parse(field_name, data))
         publisher.publish_message(parser_results, field_name)
 
 

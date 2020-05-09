@@ -55,7 +55,9 @@ def convert_binary_fields_to_files(user_id, data):
         field_name = field[0].name
         if field_name in [*binary_type_data, *array_type_data]:
             field_data = field[1].data
-            file_path = Utils.build_path_for_files_from_data('./', user_id, data, '.'.join((field_name, 'raw')))
+            # TODO: Make base path something reasonable
+            file_path = Utils.build_path_for_files_from_data('./', user_id, str(data.datetime),
+                                                             '.'.join((field_name, 'raw')))
             if field_name in binary_type_data:
                 Utils.save_data_to_file(field_data, file_path, 'b')
             else:

@@ -15,7 +15,7 @@ class MongoDriver:
         self.table_name.insert_many(data_list)
 
     def upsert_data_unit(self, key, data):
-        self.table_name.update(key, data, upsert=True)
+        self.table_name.update_one(key, data, upsert=True)
 
     def create_index_for_id(self, key_name, *args, **kwargs):
         self.table_name.create_index([(key_name, ASCENDING)], *args, **kwargs)

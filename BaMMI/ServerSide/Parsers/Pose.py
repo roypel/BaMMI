@@ -8,7 +8,7 @@ def parse_pose(context, snapshot):
         raise KeyError("Snapshot is missing the Translation data")
     if 'rotation' not in pose_data:
         raise KeyError("Snapshot is missing the Rotation data")
-    return {k: v for k, v in snapshot.items() if k in ['pose', 'datetime']}
+    return context.format_returned_data('pose', snapshot['pose'])
 
 
 parse_pose.field = 'pose'

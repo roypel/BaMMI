@@ -1,3 +1,4 @@
+import json
 import os
 from urllib.parse import urlparse
 
@@ -14,9 +15,8 @@ def save_data_to_file(data, file_path, data_type=''):
         f.write(data)
 
 
-def build_path_for_files_from_data(base_path, user_id, snapshot_data, filename):
-    timestamp = str(snapshot_data.datetime)
-    return os.path.join(base_path, user_id, timestamp, filename)
+def build_path_for_files_from_data(base_path, user_id, snapshot_timestamp, filename):
+    return os.path.join(base_path, user_id, snapshot_timestamp, filename)
 
 
 def find_driver(drivers, url):
@@ -25,3 +25,10 @@ def find_driver(drivers, url):
         if url_scheme.lower() == scheme.lower():
             return cls(url)
     raise ValueError("Unknown type of URL was given")
+
+
+def extract_json_from_raw_data(raw_data):
+    json_data = json.loads(raw_data)
+    user_data = json_data['user_data']
+    snapshot_data = json_data['snapshot_data']
+    return user_data, snapshot_data
