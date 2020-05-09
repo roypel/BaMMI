@@ -13,7 +13,7 @@ class DBWrapper:
     def insert_many_data_units(self, data_list):
         self.db_driver.insert_many_data_units(data_list)
 
-    def upsert_data_unit(self, key, data):
+    def upsert_data_unit(self, key, data, topic_name):
         self.db_driver.upsert_data_unit(key, data)
 
     def create_index_for_id(self, key_name, *args, **kwargs):
@@ -21,6 +21,9 @@ class DBWrapper:
 
     def query_data(self, query=None, *args, **kwargs):
         self.db_driver.query_data(query, *args, **kwargs)
+
+    def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
+        self.db_driver.insert_snapshot_data_by_uid(user_id, snapshot_data, field_name)
 
 
 def find_db_driver(url: str):

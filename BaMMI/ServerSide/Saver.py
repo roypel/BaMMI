@@ -13,9 +13,7 @@ class Saver:
     def save(self, topic_name, data):
         if topic_name in self.known_fields:
             user_data, snapshot_data = extract_json_from_raw_data(data)
-            update_key = {'user_id': user_data['user_id'], 'datetime': snapshot_data['datetime']}
-
-            self.db_con.upsert_data_unit(update_key, data)
+            self.db_con.insert_snapshot_data_by_uid(user_data['user_id'], snapshot_data, topic_name)
         else:
             raise ValueError(f"Unknown field {topic_name}")
 

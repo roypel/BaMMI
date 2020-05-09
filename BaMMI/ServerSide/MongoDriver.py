@@ -22,3 +22,12 @@ class MongoDriver:
 
     def query_data(self, query=None, *args, **kwargs):
         self.table_name.find(query, *args, **kwargs)
+
+    def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
+        self.upsert_data_unit({'user_id': user_id, 'snapshots.datetime': snapshot_data['datetime']},
+                              {'$push':
+                                  {
+                                      f'snapshots.$.{field_name}': snapshot_data[field_name]
+                                   }
+                               }
+                              )
