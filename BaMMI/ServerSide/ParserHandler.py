@@ -1,5 +1,6 @@
 import importlib
 import inspect
+import json
 import pathlib
 import sys
 from BaMMI.ServerSide.PubSuber import PubSuber
@@ -24,15 +25,22 @@ class ParserHandler:
         for func_name, func in inspect.getmembers(module, inspect.isfunction):
             if not func_name.startswith('parse'):
                 continue
-            for field in func.field:
-                if field in self.parsers:
-                    self.parsers[field].append(func)
-                else:
-                    self.parsers[field] = [func]
+            if isinstance(func.field, list):
+                for field in func.field:
+                    self._add_parser_to_list(field, func)
+            else:
+                self._add_parser_to_list(func.field, func)
 
-    def parse(self, field_name, data):
-        user_data = data['user_data']
-        snapshot_data = data['snapshot_data']
+    def _add_parser_to_list(self, field, func):
+        if field in self.parsers:
+            self.parsers[field].append(func)
+        else:
+            self.parsers[field] = [func]
+
+    def parse(self, field_name, raw_data):
+        json_data = json.loads(raw_data)
+        user_data = json_data['user_data']
+        snapshot_data = json_data['snapshot_data']
         if field_name not in self.parsers:
             raise ModuleNotFoundError(f"Parser for {field_name} is not found")
         if len(self.parsers[field_name]) > 1:
@@ -47,7 +55,7 @@ class ParserHandler:
     def run_parser(self, field_name, mq_url):
         subscriber = PubSuber(mq_url)
         subscriber.init_exchange('snapshots_data', exchange_type='topic')
-        subscriber.bind_queue(binding_keys=field_name)
+        subscriber.bind_queue(binding_keys=f'#.{field_name}.#')
         publisher = PubSuber(mq_url)
         publisher.init_exchange('parsers_results', exchange_type='topic')
         subscriber.consume_messages(
@@ -57,3 +65,7 @@ class ParserHandler:
     def _forward_parsing(self, field_name, data, publisher):
         parser_results = self.parse(field_name, data)
         publisher.publish_message(parser_results, field_name)
+
+
+parser = ParserHandler()
+parser.run_parser('pose', 'rabbitmq://127.0.0.1:5672/')

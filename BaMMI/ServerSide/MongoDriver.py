@@ -3,7 +3,7 @@ from pymongo import MongoClient, ASCENDING
 
 class MongoDriver:
 
-    def __init__(self, url, db_name, table_name):
+    def __init__(self, url, db_name="bammi_data", table_name="users_and_snapshots"):
         self.client = MongoClient(url)
         self.db = self.client[db_name]
         self.table_name = self.db[table_name]

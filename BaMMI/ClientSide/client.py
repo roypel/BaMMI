@@ -31,4 +31,4 @@ def send_snapshots_data(url: str, reader: Reader, server_accepted_fields: list):
                                     'user-id': str(user_id)}, data=snapshot)
 
 
-upload_sample('127.0.0.1', 5000, r"/sample.mind.gz")
+upload_sample('127.0.0.1', 5000, r"../sample.mind.gz")

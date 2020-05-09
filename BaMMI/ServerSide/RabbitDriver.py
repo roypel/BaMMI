@@ -42,6 +42,10 @@ class RabbitDriver:
         if isinstance(binding_keys, list):
             for binding_key in binding_keys:
                 self.channel.queue_bind(exchange=self.exchange_name, queue=self.queue_name, routing_key=binding_key)
+        elif isinstance(binding_keys, str):
+            self.channel.queue_bind(exchange=self.exchange_name, queue=self.queue_name, routing_key=binding_keys)
+        else:
+            raise TypeError("Binding keys format isn't recognized, pass a string or a list of strings")
 
     def close(self):
         self.connection.close()
