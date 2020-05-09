@@ -2,24 +2,25 @@ import importlib
 import inspect
 import pathlib
 import sys
+from BaMMI.ServerSide.PubSuber import PubSuber
 
 
 class ParserHandler:
 
     def __init__(self, parsers_folder='./Parsers'):
         self.parsers = {}
-        self.load_parsers(parsers_folder)
+        self._load_parsers(parsers_folder)
 
-    def load_parsers(self, root_folder):
+    def _load_parsers(self, root_folder):
         root = pathlib.Path(root_folder).absolute()
         sys.path.insert(0, str(root.parent))
         for path in root.iterdir():
             if path.name.startswith('_') or not path.suffix == '.py':
                 continue
             module = importlib.import_module(f'{root.name}.{path.stem}', package=root.name)
-            self.load_parse_function(module)
+            self._load_parse_function(module)
 
-    def load_parse_function(self, module):
+    def _load_parse_function(self, module):
         for func_name, func in inspect.getmembers(module, inspect.isfunction):
             if not func_name.startswith('parse'):
                 continue
@@ -29,7 +30,7 @@ class ParserHandler:
                 else:
                     self.parsers[field] = [func]
 
-    def run_parser(self, field_name, data):
+    def parse(self, field_name, data):
         user_data = data['user_data']
         snapshot_data = data['snapshot_data']
         if field_name not in self.parsers:
@@ -42,3 +43,17 @@ class ParserHandler:
         else:
             parser_results = self.parsers[field_name][0](snapshot_data)
         return {'user_data': user_data, field_name: parser_results}
+
+    def run_parser(self, field_name, mq_url):
+        subscriber = PubSuber(mq_url)
+        subscriber.init_exchange('snapshots_data', exchange_type='topic')
+        subscriber.bind_queue(binding_keys=field_name)
+        publisher = PubSuber(mq_url)
+        publisher.init_exchange('parsers_results', exchange_type='topic')
+        subscriber.consume_messages(
+            lambda ch, method, properties, body: self._forward_parsing(field_name, body, publisher)
+        )
+
+    def _forward_parsing(self, field_name, data, publisher):
+        parser_results = self.parse(field_name, data)
+        publisher.publish_message(parser_results, field_name)
