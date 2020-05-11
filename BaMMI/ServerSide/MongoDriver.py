@@ -1,4 +1,4 @@
-from pymongo import MongoClient, ASCENDING
+from pymongo import MongoClient, ASCENDING, UpdateOne
 
 
 class MongoDriver:
@@ -24,22 +24,41 @@ class MongoDriver:
         self.table_name.find(query, *args, **kwargs)
 
     def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
-        self.upsert_data_unit({'user_id': user_id},
-                                  {
-                                      f'snapshots.0.{field_name}': snapshot_data[field_name]
-                                  }
-                              )
-        self.upsert_data_unit({'user_id': user_id,
-                               'snapshots':
-                                   {'$elemMatch':
-                                    {'datetime':
-                                     snapshot_data['datetime']
-                                     }
-                                    }
-                               },
-                              {'$addToSet':
-                                  {
-                                      f'snapshots.$.{field_name}': snapshot_data[field_name]
-                                  }
-                               }
-                              )
+        operations = [
+            # If the document doesn't exist at all, insert it
+            self.table_name.update_one({'user_id': user_id},
+                                       {
+                                           '$setOnInsert': {
+                                               'user_id': user_id,
+                                               'snapshots': [{'datetime': snapshot_data['datetime']}]
+                                           }
+                                       },
+                                       upsert=True
+                                       ),
+            # If the document exists, update it
+            self.table_name.update_one({'user_id': user_id,
+                                        'snapshots': {
+                                            '$elemMatch': {
+                                                'datetime': snapshot_data['datetime']
+                                            }
+                                        }
+                                        },
+                                       {
+                                           '$set':
+                                               {
+                                                   f'snapshots.$.{field_name}': snapshot_data[field_name]
+                                               }
+                                       }
+                                       ),
+            # If an array element doesn't exist, add it. Won't conflict with the update a step before
+            self.table_name.update_one({'user_id': user_id},
+                                       {
+                                           '$addToSet': {
+                                               'snapshots': {
+                                                   'datetime': snapshot_data['datetime'],
+                                                   field_name: snapshot_data[field_name]
+                                               }
+                                           }
+                                       })
+        ]
+        self.table_name.bulk_write(operations)
