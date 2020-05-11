@@ -24,6 +24,7 @@ class MongoDriver:
         self.table_name.find(query, *args, **kwargs)
 
     def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
+        # Idea for array upsert taken from https://stackoverflow.com/questions/22664972/mongodb-upsert-on-array
         operations = [
             # If the document doesn't exist at all, insert it
             UpdateOne({'user_id': user_id},
