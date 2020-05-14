@@ -71,7 +71,7 @@ class ParserHandler:
 
 parser = ParserHandler()
 # parser.run_parser('pose', 'rabbitmq://127.0.0.1:5672/')
-parser.run_parser('color_image', 'rabbitmq://127.0.0.1:5672/')
-parser.run_parser('depth_image', 'rabbitmq://127.0.0.1:5672/')
+# parser.run_parser('color_image', 'rabbitmq://127.0.0.1:5672/')
+# parser.run_parser('depth_image', 'rabbitmq://127.0.0.1:5672/')
 parser.run_parser('feelings', 'rabbitmq://127.0.0.1:5672/')
 
