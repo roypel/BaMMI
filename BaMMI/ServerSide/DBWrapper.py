@@ -20,10 +20,10 @@ class DBWrapper:
         self.db_driver.create_index_for_id(key_name, *args, **kwargs)
 
     def query_data(self, query=None, *args, **kwargs):
-        self.db_driver.query_data(query, *args, **kwargs)
+        return self.db_driver.query_data(query, *args, **kwargs)
 
-    def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
-        self.db_driver.insert_snapshot_data_by_uid(user_id, snapshot_data, field_name)
+    def insert_snapshot_data_by_user(self, user_id, snapshot_data, field_name):
+        self.db_driver.insert_snapshot_data_by_user(user_id, snapshot_data, field_name)
 
 
 def find_db_driver(url: str):

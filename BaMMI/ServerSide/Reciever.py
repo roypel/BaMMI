@@ -24,9 +24,12 @@ def receive_user_data():
     user_data = request.data
     user = User()
     user.ParseFromString(user_data)
-    known_users[str(user.user_id)] = MessageToDict(user, preserving_proto_field_name=True)
-    with open('./log.txt', 'w') as f:
-        print(known_users, file=f)
+    user_dict = MessageToDict(user, preserving_proto_field_name=True)
+    for field in user.DESCRIPTOR.fields:
+        if field.name not in user_dict:
+            # Handling case where zero-value enums are omitted - https://github.com/golang/protobuf/issues/258
+            user_dict[field.name] = 0
+    known_users[str(user.user_id)] = user_dict
     return jsonify(success=True)
 
 

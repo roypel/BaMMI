@@ -21,16 +21,17 @@ class MongoDriver:
         self.table_name.create_index([(key_name, ASCENDING)], *args, **kwargs)
 
     def query_data(self, query=None, *args, **kwargs):
-        self.table_name.find(query, *args, **kwargs)
+        return self.table_name.find(query, *args, **kwargs)
 
-    def insert_snapshot_data_by_uid(self, user_id, snapshot_data, field_name):
+    def insert_snapshot_data_by_user(self, user_data, snapshot_data, field_name):
         # Idea for array upsert taken from https://stackoverflow.com/questions/22664972/mongodb-upsert-on-array
+        user_id = user_data['id']
         operations = [
             # If the document doesn't exist at all, insert it
             UpdateOne({'user_id': user_id},
                       {
                           '$setOnInsert': {
-                              'user_id': user_id,
+                              **{k: v for k, v in user_data},
                               'snapshots': [{'datetime': snapshot_data['datetime']}]
                           }
                       },
