@@ -13,7 +13,7 @@ class DBWrapper:
     def insert_many_data_units(self, data_list):
         self.db_driver.insert_many_data_units(data_list)
 
-    def upsert_data_unit(self, key, data, topic_name):
+    def upsert_data_unit(self, key, data):
         self.db_driver.upsert_data_unit(key, data)
 
     def create_index_for_id(self, key_name, *args, **kwargs):

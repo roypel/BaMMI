@@ -1,8 +1,9 @@
 import json
 from flask import Blueprint, jsonify, request
+from google.protobuf.json_format import MessageToDict
 import numpy as np
 from BaMMI.BaMMI_pb2 import Snapshot, User
-from google.protobuf.json_format import MessageToDict
+from BaMMI.ServerSide.APIServer import create_api_by_blueprint
 from BaMMI.ServerSide import Utils
 from BaMMI.ServerSide.PubSuber import PubSuber
 
@@ -77,3 +78,8 @@ def prepare_data_for_queue(user_id, data):
         data_to_publish[field]['data'] = file_paths_data[field]
     return data_to_publish
     # TODO: In case data comes in other options, convert it to a valid json
+
+
+if __name__ == "__main__":
+    app = create_api_by_blueprint(bp)
+    app.run(debug=True, use_reloader=False)
