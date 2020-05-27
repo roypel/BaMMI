@@ -15,6 +15,14 @@ array_type_data = ['depth_image']
 known_users = {}
 
 
+def publish_to_message_queue(user_data, snapshot, message_queue_url='rabbitmq://127.0.0.1:5672/'):
+    data_to_publish = prepare_data_for_queue(user_data['user_id'], snapshot)
+    publisher = PubSuber(message_queue_url)
+    publisher.init_exchange('snapshots_data', exchange_type='topic')
+    publisher.publish_message(json.dumps({'user_data': user_data, 'snapshot_data': data_to_publish}),
+                              '.'.join(data_to_publish.keys()))
+
+
 @bp.route('/config', methods=['GET'])
 def send_server_supported_fields():
     return jsonify([*message_type_data, *binary_type_data, *array_type_data])
@@ -35,16 +43,12 @@ def receive_user_data():
 
 
 @bp.route('/snapshots', methods=['POST'])
-def receive_snapshot_data():
+def receive_snapshot_data(publish=publish_to_message_queue, *args, **kwargs):
     user_id = request.headers.get('user-id')
     snapshot_data = request.data
     snapshot = Snapshot()
     snapshot.ParseFromString(snapshot_data)
-    data_to_publish = prepare_data_for_queue(user_id, snapshot)
-    publisher = PubSuber('rabbitmq://127.0.0.1:5672/')
-    publisher.init_exchange('snapshots_data', exchange_type='topic')
-    publisher.publish_message(json.dumps({'user_data': known_users[user_id], 'snapshot_data': data_to_publish}),
-                              '.'.join(data_to_publish.keys()))
+    publish(known_users[user_id], snapshot, *args, **kwargs)
     return jsonify(success=True)
 
 

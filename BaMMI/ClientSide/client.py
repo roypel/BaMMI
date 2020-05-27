@@ -1,9 +1,5 @@
-# from cli import CommandLineInterface
-# from .Reader import Reader
 from BaMMI.ClientSide.Reader import Reader
 from BaMMI.utils.connection import get_from_url, post_from_url
-
-# cli = CommandLineInterface()
 
 
 # @cli.command
