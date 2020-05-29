@@ -5,7 +5,7 @@ import pathlib
 import sys
 from ..server.Context import Context
 from ..utils.PubSuber import PubSuber
-from BaMMI.utils.UtilFunctions import extract_json_from_raw_data
+from ..utils.UtilFunctions import extract_json_from_raw_data
 
 
 class ParserHandler:

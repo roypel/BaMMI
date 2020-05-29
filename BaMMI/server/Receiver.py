@@ -2,13 +2,10 @@ import json
 from flask import jsonify, request
 from google.protobuf.json_format import MessageToDict
 import numpy as np
-from BaMMI.BaMMI_pb2 import Snapshot, User
-# from BaMMI.server.APIServer import create_api_by_blueprint
-from BaMMI.utils import UtilFunctions
-from BaMMI.utils.PubSuber import PubSuber
+from ..BaMMI_pb2 import Snapshot, User
+from ..utils import UtilFunctions
+from ..utils.PubSuber import PubSuber
 
-
-# bp = Blueprint('recieve_data', __name__, url_prefix='/uploads')
 
 def publish_to_message_queue(user_data, snapshot, binary_type_data, array_type_data,
                              message_queue_url='rabbitmq://127.0.0.1:5672/'):
@@ -63,7 +60,6 @@ class Receiver:
     def send_server_supported_fields(self):
         return jsonify([*self.message_type_data, *self.binary_type_data, *self.array_type_data])
 
-    # @bp.route('/users', methods=['POST'])
     def receive_user_data(self):
         user_data = request.data
         user = User()
@@ -76,7 +72,6 @@ class Receiver:
         self.known_users[str(user.user_id)] = user_dict
         return jsonify(success=True)
 
-    # @bp.route('/snapshots', methods=['POST'])
     def receive_snapshot_data(self):
         user_id = request.headers.get('user-id')
         snapshot_data = request.data
@@ -84,8 +79,3 @@ class Receiver:
         snapshot.ParseFromString(snapshot_data)
         self.publish_function(self.known_users[user_id], snapshot, self.binary_type_data, self.array_type_data)
         return jsonify(success=True)
-
-
-# if __name__ == "__main__":
-#     app = create_api_by_blueprint(bp)
-#     app.run(debug=True, use_reloader=False)

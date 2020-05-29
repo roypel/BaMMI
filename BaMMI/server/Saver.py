@@ -1,6 +1,6 @@
-from BaMMI.server.DBWrapper import DBWrapper
-from BaMMI.utils.PubSuber import PubSuber
-from BaMMI.utils.UtilFunctions import extract_json_from_raw_data
+from ..server.DBWrapper import DBWrapper
+from ..utils.PubSuber import PubSuber
+from ..utils.UtilFunctions import extract_json_from_raw_data
 
 
 class Saver:

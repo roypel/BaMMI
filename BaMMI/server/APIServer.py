@@ -1,16 +1,12 @@
-from flask import Flask, Response
+from flask import Flask
 
 
 class EndpointAction:
-    def __init__(self, action):  # , status=200, headers=None):
-        # if headers is None:
-        #     headers = {}
+    def __init__(self, action):
         self.action = action
-        # self.response = Response(status=status, headers=headers)
 
     def __call__(self, *args, **kwargs):
         return self.action(*args, **kwargs)
-        # return Response(result, status=200, headers={})
 
 
 class FlaskWrapper:

@@ -1,5 +1,5 @@
-import BaMMI.server.MongoDriver as MongoDriver
-from BaMMI.utils.UtilFunctions import find_driver
+from ..server.MongoDriver import MongoDriver
+from ..utils.UtilFunctions import find_driver
 
 
 class DBWrapper:
@@ -27,5 +27,5 @@ class DBWrapper:
 
 
 def find_db_driver(url: str):
-    drivers = {'mongodb': MongoDriver.MongoDriver}
+    drivers = {'mongodb': MongoDriver}
     return find_driver(drivers, url)
