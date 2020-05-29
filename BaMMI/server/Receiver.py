@@ -3,9 +3,9 @@ from flask import jsonify, request
 from google.protobuf.json_format import MessageToDict
 import numpy as np
 from BaMMI.BaMMI_pb2 import Snapshot, User
-# from BaMMI.ServerSide.APIServer import create_api_by_blueprint
-from BaMMI.ServerSide import Utils
-from BaMMI.ServerSide.PubSuber import PubSuber
+# from BaMMI.server.APIServer import create_api_by_blueprint
+from BaMMI.utils import UtilFunctions
+from BaMMI.utils.PubSuber import PubSuber
 
 
 # bp = Blueprint('recieve_data', __name__, url_prefix='/uploads')
@@ -31,10 +31,10 @@ def convert_binary_fields_to_files(user_id, data, binary_type_data, array_type_d
         if field_name in [*binary_type_data, *array_type_data]:
             field_data = field[1].data
             # TODO: Make base path something reasonable
-            file_path = Utils.build_path_for_files_from_data('./', user_id, str(data.datetime),
+            file_path = UtilFunctions.build_path_for_files_from_data('./', user_id, str(data.datetime),
                                                              '.'.join((field_name, 'raw')))
             if field_name in binary_type_data:
-                Utils.save_data_to_file(field_data, file_path, 'b')
+                UtilFunctions.save_data_to_file(field_data, file_path, 'b')
             else:
                 array_data = np.array(field_data, dtype=float)
                 array_data.astype('float').tofile(file_path)
@@ -86,6 +86,6 @@ class Receiver:
         return jsonify(success=True)
 
 
-if __name__ == "__main__":
-    app = create_api_by_blueprint(bp)
-    app.run(debug=True, use_reloader=False)
+# if __name__ == "__main__":
+#     app = create_api_by_blueprint(bp)
+#     app.run(debug=True, use_reloader=False)

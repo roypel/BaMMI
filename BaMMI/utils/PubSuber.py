@@ -1,5 +1,5 @@
-import BaMMI.ServerSide.RabbitDriver as RabbitDriver
-from BaMMI.ServerSide.Utils import find_driver
+from ..server.RabbitDriver import RabbitDriver
+from ..utils.UtilFunctions import find_driver
 
 """
 At first, I thought about separating the modules to Publisher and Subscriber,
@@ -33,5 +33,5 @@ class PubSuber:
 
 
 def find_pub_sub_driver(url: str):
-    drivers = {'rabbitmq': RabbitDriver.RabbitDriver}
+    drivers = {'rabbitmq': RabbitDriver}
     return find_driver(drivers, url)

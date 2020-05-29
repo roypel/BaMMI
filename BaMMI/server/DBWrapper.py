@@ -1,5 +1,5 @@
-import BaMMI.ServerSide.MongoDriver as MongoDriver
-from BaMMI.ServerSide.Utils import find_driver
+import BaMMI.server.MongoDriver as MongoDriver
+from BaMMI.utils.UtilFunctions import find_driver
 
 
 class DBWrapper:

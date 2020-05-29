@@ -1,6 +1,5 @@
-import click
-import BaMMI.ServerSide.APIServer as APIServer
-import BaMMI.ServerSide.Receiver as Reciever
+import BaMMI.server.APIServer as APIServer
+import BaMMI.server.Receiver as Reciever
 
 
 def run_server(host='127.0.0.1', port=8000, publish=Reciever.publish_to_message_queue):
@@ -13,7 +12,3 @@ def run_server(host='127.0.0.1', port=8000, publish=Reciever.publish_to_message_
                      methods=['POST'])
 
     app.run(host=host, port=port)
-
-
-if __name__ == "__main__":
-    run_server()

@@ -3,14 +3,14 @@ import inspect
 import json
 import pathlib
 import sys
-from BaMMI.ServerSide.Context import Context
-from BaMMI.ServerSide.PubSuber import PubSuber
-from BaMMI.ServerSide.Utils import extract_json_from_raw_data
+from ..server.Context import Context
+from ..utils.PubSuber import PubSuber
+from BaMMI.utils.UtilFunctions import extract_json_from_raw_data
 
 
 class ParserHandler:
 
-    def __init__(self, parsers_folder='./Parsers'):
+    def __init__(self, parsers_folder='./all_parsers'):
         self.parsers = {}
         self._load_parsers(parsers_folder)
 
@@ -42,7 +42,7 @@ class ParserHandler:
     def parse(self, field_name, raw_data):
         user_data, snapshot_data = extract_json_from_raw_data(raw_data)
         # TODO: Make base path something reasonable
-        context = Context('./', user_data, snapshot_data)
+        context = Context('../server/', user_data, snapshot_data)
         if field_name not in self.parsers:
             raise ModuleNotFoundError(f"Parser for {field_name} is not found")
         if len(self.parsers[field_name]) > 1:

@@ -1,1 +1,1 @@
-from .connection import get_from_url, post_from_url
+from .Connection import get_from_url, post_from_url

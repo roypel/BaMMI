@@ -1,4 +1,4 @@
-from . import Utils
+from ..utils import UtilFunctions
 
 
 class Context:
@@ -9,7 +9,7 @@ class Context:
         self.snapshot_timestamp = snapshot_data['datetime']
 
     def path(self, file_name):
-        return Utils.build_path_for_files_from_data(self.base_path, self.user_id, self.snapshot_timestamp, file_name)
+        return UtilFunctions.build_path_for_files_from_data(self.base_path, self.user_id, self.snapshot_timestamp, file_name)
 
     def format_returned_data(self, field_name, data):
         return {'datetime': self.snapshot_timestamp, field_name: data}

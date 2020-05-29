@@ -1,4 +1,4 @@
-# from BaMMI.ServerSide.PubSuber import PubSuber
+# from BaMMI.server.PubSuber import PubSuber
 #
 #
 # def consume_messages(available_fields):

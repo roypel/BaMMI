@@ -1,5 +1,5 @@
 from .Reader import Reader
-from ..utils.connection import get_from_url, post_from_url
+from ..utils.Connection import get_from_url, post_from_url
 
 
 def upload_sample(host: str, port: int, path: str):
