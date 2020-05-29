@@ -1,4 +1,4 @@
-import BaMMI.ClientSide.ProtoDriver as ProtoDriver
+from .ProtoDriver import ProtoDriver
 
 
 class Reader:
@@ -23,7 +23,7 @@ class Reader:
 
 
 def find_reader_driver(file_path):
-    drivers = {'.mind.gz': ProtoDriver.ProtoDriver}
+    drivers = {'.mind.gz': ProtoDriver}
     for suffix, cls in drivers.items():
         if file_path.endswith(suffix):
             return cls(file_path)

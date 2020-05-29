@@ -1,10 +1,13 @@
 import gzip
 import struct
-from BaMMI.BaMMI_pb2 import User, Snapshot
+from ..BaMMI_pb2 import User, Snapshot
 
 
 class ProtoDriver:
     def __init__(self, file_path):
+        import os
+        print(os.getcwd())
+
         self.f = gzip.open(file_path, 'rb')
         self.user = None
 

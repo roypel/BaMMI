@@ -6,6 +6,6 @@ COPY ../requirements.txt ./
 RUN pip install -r requirements.txt
 
 COPY ../BaMMI_pb2.py ./
-COPY ./Reciever.py ./APIServer.py ./PubSuber.py ./ServerSide/
+COPY Receiver.py ./APIServer.py ./PubSuber.py ./ServerSide/
 
 CMD ["python", "./Reciever.py"]
