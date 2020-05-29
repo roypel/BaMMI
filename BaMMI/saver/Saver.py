@@ -1,4 +1,4 @@
-from ..server.DBWrapper import DBWrapper
+from ..utils.DBWrapper import DBWrapper
 from ..utils.PubSuber import PubSuber
 from ..utils.UtilFunctions import extract_json_from_raw_data
 

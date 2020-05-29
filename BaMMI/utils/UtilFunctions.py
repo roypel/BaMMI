@@ -28,7 +28,11 @@ def find_driver(drivers, url):
 
 
 def extract_json_from_raw_data(raw_data):
-    json_data = json.loads(raw_data)
+    if raw_data.endswith('.json'):
+        with open(raw_data, 'r') as f:
+            json_data = json.load(f)
+    else:
+        json_data = json.loads(raw_data)
     user_data = json_data['user_data']
     snapshot_data = json_data['snapshot_data']
     return user_data, snapshot_data

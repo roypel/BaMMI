@@ -3,7 +3,7 @@ import inspect
 import json
 import pathlib
 import sys
-from ..server.Context import Context
+from .Context import Context
 from ..utils.PubSuber import PubSuber
 from ..utils.UtilFunctions import extract_json_from_raw_data
 
@@ -39,8 +39,8 @@ class ParserHandler:
         else:
             self.parsers[field] = [func]
 
-    def parse(self, field_name, raw_data):
-        user_data, snapshot_data = extract_json_from_raw_data(raw_data)
+    def parse(self, field_name, raw_data_path):
+        user_data, snapshot_data = extract_json_from_raw_data(raw_data_path)
         # TODO: Make base path something reasonable
         context = Context('../server/', user_data, snapshot_data)
         if field_name not in self.parsers:

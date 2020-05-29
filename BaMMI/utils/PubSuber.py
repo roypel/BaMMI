@@ -1,4 +1,4 @@
-from ..server.RabbitDriver import RabbitDriver
+from .drivers.mq_drivers import mq_drivers
 from ..utils.UtilFunctions import find_driver
 
 """
@@ -33,5 +33,4 @@ class PubSuber:
 
 
 def find_pub_sub_driver(url: str):
-    drivers = {'rabbitmq': RabbitDriver}
-    return find_driver(drivers, url)
+    return find_driver(mq_drivers, url)
