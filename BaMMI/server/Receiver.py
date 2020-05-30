@@ -28,8 +28,9 @@ def convert_binary_fields_to_files(user_id, data, binary_type_data, array_type_d
         if field_name in [*binary_type_data, *array_type_data]:
             field_data = field[1].data
             # TODO: Make base path something reasonable
-            file_path = UtilFunctions.build_path_for_files_from_data('./', user_id, str(data.datetime),
-                                                             '.'.join((field_name, 'raw')))
+            file_path = UtilFunctions.build_path_for_files_from_data(
+                UtilFunctions.get_true_relative_path(__file__, '../storage'),
+                user_id, str(data.datetime), '.'.join((field_name, 'raw')))
             if field_name in binary_type_data:
                 UtilFunctions.save_data_to_file(field_data, file_path, 'b')
             else:

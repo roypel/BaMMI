@@ -15,6 +15,10 @@ def save_data_to_file(data, file_path, data_type=''):
         f.write(data)
 
 
+def get_true_relative_path(file_path, relative_path):
+    return os.path.join(os.path.dirname(os.path.realpath(file_path)), relative_path)
+
+
 def build_path_for_files_from_data(base_path, user_id, snapshot_timestamp, filename):
     return os.path.join(base_path, user_id, snapshot_timestamp, filename)
 
@@ -28,11 +32,7 @@ def find_driver(drivers, url):
 
 
 def extract_json_from_raw_data(raw_data):
-    if raw_data.endswith('.json'):
-        with open(raw_data, 'r') as f:
-            json_data = json.load(f)
-    else:
-        json_data = json.loads(raw_data)
+    json_data = json.loads(raw_data)
     user_data = json_data['user_data']
     snapshot_data = json_data['snapshot_data']
     return user_data, snapshot_data

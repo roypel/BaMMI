@@ -5,9 +5,6 @@ from ..BaMMI_pb2 import User, Snapshot
 
 class ProtoDriver:
     def __init__(self, file_path):
-        import os
-        print(os.getcwd())
-
         self.f = gzip.open(file_path, 'rb')
         self.user = None
 
@@ -41,7 +38,7 @@ class ProtoDriver:
                         snapshot.ClearField(field_name)
                 yield snapshot.SerializeToString()
             else:  # EOF reached, no more snapshots
-                break
+                return
 
     @staticmethod
     def get_data_content_type():
@@ -68,6 +65,9 @@ def _read_bytes_as_format_from_file(f, num_of_bytes, bytes_format, endian='littl
         endian = '>'
     else:
         raise ValueError("Endian should be 'little' or 'big'")
-    return struct.unpack(f'{endian}{bytes_format}', f.read(num_of_bytes))[0]
+    bts = f.read(num_of_bytes)
+    if len(bts) < num_of_bytes:
+        return None
+    return struct.unpack(f'{endian}{bytes_format}', bts)[0]
 
 

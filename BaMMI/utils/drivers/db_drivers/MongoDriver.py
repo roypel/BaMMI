@@ -25,13 +25,13 @@ class MongoDriver:
 
     def insert_snapshot_data_by_user(self, user_data, snapshot_data, field_name):
         # Idea for array upsert taken from https://stackoverflow.com/questions/22664972/mongodb-upsert-on-array
-        user_id = user_data['id']
+        user_id = user_data['user_id']
         operations = [
             # If the document doesn't exist at all, insert it
             UpdateOne({'user_id': user_id},
                       {
                           '$setOnInsert': {
-                              **{k: v for k, v in user_data},
+                              **{k: v for k, v in user_data.items()},
                               'snapshots': [{'datetime': snapshot_data['datetime']}]
                           }
                       },

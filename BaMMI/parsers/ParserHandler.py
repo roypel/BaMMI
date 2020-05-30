@@ -5,12 +5,12 @@ import pathlib
 import sys
 from .Context import Context
 from ..utils.PubSuber import PubSuber
-from ..utils.UtilFunctions import extract_json_from_raw_data
+from ..utils.UtilFunctions import extract_json_from_raw_data, get_true_relative_path
 
 
 class ParserHandler:
 
-    def __init__(self, parsers_folder='./all_parsers'):
+    def __init__(self, parsers_folder=get_true_relative_path(__file__, 'all_parsers')):
         self.parsers = {}
         self._load_parsers(parsers_folder)
 
@@ -42,7 +42,7 @@ class ParserHandler:
     def parse(self, field_name, raw_data_path):
         user_data, snapshot_data = extract_json_from_raw_data(raw_data_path)
         # TODO: Make base path something reasonable
-        context = Context('../server/', user_data, snapshot_data)
+        context = Context(get_true_relative_path(__file__, '../storage'), user_data, snapshot_data)
         if field_name not in self.parsers:
             raise ModuleNotFoundError(f"Parser for {field_name} is not found")
         if len(self.parsers[field_name]) > 1:
@@ -60,6 +60,7 @@ class ParserHandler:
         subscriber.bind_queue(binding_keys=f'#.{field_name}.#')
         publisher = PubSuber(mq_url)
         publisher.init_exchange('parsers_results', exchange_type='topic')
+        print(f"Starting to listen to {field_name} on {mq_url}...")
         subscriber.consume_messages(
             lambda ch, method, properties, body: self._forward_parsing(field_name, body, publisher)
         )
@@ -67,11 +68,3 @@ class ParserHandler:
     def _forward_parsing(self, field_name, data, publisher):
         parser_results = json.dumps(self.parse(field_name, data))
         publisher.publish_message(parser_results, field_name)
-
-
-parser = ParserHandler()
-# parser.run_parser('pose', 'rabbitmq://127.0.0.1:5672/')
-# parser.run_parser('color_image', 'rabbitmq://127.0.0.1:5672/')
-# parser.run_parser('depth_image', 'rabbitmq://127.0.0.1:5672/')
-parser.run_parser('feelings', 'rabbitmq://127.0.0.1:5672/')
-
