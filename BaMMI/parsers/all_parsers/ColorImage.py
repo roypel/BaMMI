@@ -1,18 +1,21 @@
+import os
 from PIL import Image as PILIm
+from ...utils.UtilFunctions import ensure_dir
 
 
 def parse_color_image(context, snapshot):
     if 'color_image' not in snapshot:
         raise KeyError("Snapshot is missing the Color Image data")
-    path = context.path('color_image.jpg')
+    save_path = context.path('color_image.jpg')
     size = snapshot['color_image']['width'], snapshot['color_image']['height']
     image_data_path = snapshot['color_image']['data']
     with open(image_data_path, 'rb') as f:
         image_data = f.read()
     image = PILIm.new('RGB', size)
     image.frombytes(image_data)
-    image.save(path)
-    return context.format_returned_data('color_image', path)
+    ensure_dir(os.path.dirname(save_path))
+    image.save(save_path)
+    return context.format_returned_data('color_image', save_path)
 
 
 parse_color_image.field = 'color_image'

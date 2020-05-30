@@ -1,6 +1,6 @@
 import gzip
 import struct
-from ..BaMMI_pb2 import User, Snapshot
+from ..utils.BaMMI_pb2 import User, Snapshot
 
 
 class ProtoDriver:

@@ -2,7 +2,7 @@ import json
 from flask import jsonify, request
 from google.protobuf.json_format import MessageToDict
 import numpy as np
-from ..BaMMI_pb2 import Snapshot, User
+from ..utils.BaMMI_pb2 import Snapshot, User
 from ..utils import UtilFunctions
 from ..utils.PubSuber import PubSuber
 

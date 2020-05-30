@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: BaMMI
+      MONGO_INITDB_ROOT_PASSWORD: 1337
+    volumes:
+      - ./BaMMI/storage:/home/BaMMI/storage
+
+  rabbitmq:
+    image: rabbitmq:3
+    command: rabbitmq-server
+    ports:
+      - "5672"
+      - "15672"
+
+  server:
+    build:
+      context: .
+      dockerfile: BaMMI/server/Dockerfile.Server
+    restart: always
+    depends_on:
+      - rabbitmq
+      - parser
+    volumes:
+      - ./BaMMI/storage:/home/BaMMI/storage
+
+  parser:
+    build:
+      context: .
+      dockerfile: BaMMI/parsers/Dockerfile.Parsers
+    restart: always
+    depends_on:
+      - rabbitmq
+      - saver
+    volumes:
+      - ./BaMMI/storage:/home/BaMMI/storage
+
+  saver:
+    build:
+      context: .
+      dockerfile: BaMMI/saver/Dockerfile.Saver
+    restart: always
+    depends_on:
+      - rabbitmq
+      - mongo
+    volumes:
+      - ./BaMMI/storage:/home/BaMMI/storage
+

@@ -6,6 +6,6 @@ COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
 
 COPY ./BaMMI/utils ./BaMMI/utils/
-COPY ./BaMMI/server ./BaMMI/server/
+COPY ./BaMMI/parsers ./BaMMI/parsers/
 
-CMD ["python", "-m", "BaMMI.server", "run-server"]
+CMD ["./run_parsers.sh"]
