@@ -11,7 +11,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: BaMMI
       MONGO_INITDB_ROOT_PASSWORD: 1337
     volumes:
-      - shared_storage:/home/BaMMI/storage
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
 
   rabbitmq:
     image: rabbitmq:3
@@ -37,7 +37,7 @@ services:
       - rabbitmq
       - parser
     volumes:
-      - shared_storage:/home/BaMMI/storage
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
 
   parser:
     build:
@@ -50,7 +50,7 @@ services:
       - rabbitmq
       - saver
     volumes:
-      - shared_storage:/home/BaMMI/storage
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
 
   saver:
     build:
@@ -64,7 +64,4 @@ services:
       - rabbitmq
       - mongo
     volumes:
-      - shared_storage:/home/BaMMI/storage
-
-volumes:
-  shared_storage:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
