@@ -9,5 +9,6 @@ COPY ./BaMMI/utils ./BaMMI/utils/
 COPY ./BaMMI/parsers ./BaMMI/parsers/
 
 RUN chmod +x ./BaMMI/parsers/ParserHandler.py
+RUN chmod +x ./BaMMI/parsers/run_parsers.sh
 
 CMD ["./BaMMI/parsers/run_parsers.sh"]
