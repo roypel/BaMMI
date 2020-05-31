@@ -6,7 +6,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - '27017:27017'
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: BaMMI
       MONGO_INITDB_ROOT_PASSWORD: 1337
@@ -17,14 +17,22 @@ services:
     image: rabbitmq:3
     command: rabbitmq-server
     ports:
-      - "5672"
-      - "15672"
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
 
   server:
     build:
       context: .
       dockerfile: BaMMI/server/Dockerfile.Server
-    restart: always
+    restart: on-failure
+    ports:
+    - "8000:8000"
+    links:
+      - rabbitmq
     depends_on:
       - rabbitmq
       - parser
@@ -35,7 +43,9 @@ services:
     build:
       context: .
       dockerfile: BaMMI/parsers/Dockerfile.Parsers
-    restart: always
+    restart: on-failure
+    links:
+      - rabbitmq
     depends_on:
       - rabbitmq
       - saver
@@ -46,7 +56,10 @@ services:
     build:
       context: .
       dockerfile: BaMMI/saver/Dockerfile.Saver
-    restart: always
+    restart: on-failure
+    links:
+      - rabbitmq
+      - mongo
     depends_on:
       - rabbitmq
       - mongo

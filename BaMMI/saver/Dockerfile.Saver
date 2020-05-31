@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 COPY ./BaMMI/utils ./BaMMI/utils/
 COPY ./BaMMI/saver ./BaMMI/saver/
 
-CMD ["python", "-m", "BaMMI.saver", "run-saver", "mongodb://127.0.0.1:27017/", "rabbitmq://127.0.0.1:5672"]
+CMD ["python", "-m", "BaMMI.saver", "run-saver", "mongodb://mongodb:27017/", "rabbitmq://rabbitmq:5672"]

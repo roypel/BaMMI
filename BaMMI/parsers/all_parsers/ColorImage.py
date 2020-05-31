@@ -1,6 +1,4 @@
-import os
 from PIL import Image as PILIm
-from ...utils.UtilFunctions import ensure_dir
 
 
 def parse_color_image(context, snapshot):
@@ -13,7 +11,6 @@ def parse_color_image(context, snapshot):
         image_data = f.read()
     image = PILIm.new('RGB', size)
     image.frombytes(image_data)
-    ensure_dir(os.path.dirname(save_path))
     image.save(save_path)
     return context.format_returned_data('color_image', save_path)
 

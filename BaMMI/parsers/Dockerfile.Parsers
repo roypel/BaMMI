@@ -8,4 +8,6 @@ RUN pip install -r requirements.txt
 COPY ./BaMMI/utils ./BaMMI/utils/
 COPY ./BaMMI/parsers ./BaMMI/parsers/
 
-CMD ["./run_parsers.sh"]
+RUN chmod +x ./BaMMI/parsers/ParserHandler.py
+
+CMD ["./BaMMI/parsers/run_parsers.sh"]

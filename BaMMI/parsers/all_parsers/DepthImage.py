@@ -1,7 +1,5 @@
-import os
 import matplotlib.pyplot as plt
 import numpy as np
-from ...utils.UtilFunctions import ensure_dir
 
 
 def parse_depth_image(context, snapshot):
@@ -10,7 +8,6 @@ def parse_depth_image(context, snapshot):
     save_path = context.path('depth_image.jpg')
     depth_image = np.fromfile(snapshot['depth_image']['data'], dtype=float)
     depth_image = np.reshape(depth_image, (snapshot['depth_image']['height'], snapshot['depth_image']['width']))
-    ensure_dir(os.path.dirname(save_path))
     plt.imsave(save_path, depth_image, cmap='hot')
     return context.format_returned_data('depth_image', save_path)
 
