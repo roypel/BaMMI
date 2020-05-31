@@ -107,4 +107,12 @@ But what if you want to process a new type of data?
  saves the data to the DB.
  
  As with the parsers, the CLI has 2 modes - running `python -m cortex.saver` with the `save` command, that given 
- a DB url (optional with the `-d` or `--database` flags, defaults to )
+ a DB url (optional with the `-d` or `--database` flags, defaults to `mongodb://BaMMI:1337@mongo:27017`, and follows the URL
+ format in the server section), a topic name and a path to data as published to the MQ, will attempt to save it
+ to the DB, working only once, or using the `run-saver` command that receives a MQ url and a DB url,
+ and consuming anything it can from the MQ and saves it to the DB.
+ 
+ 
+ ## Future Plans
+ 
+ API (rashly implemented, not yet tested :[ ) and CLI to see the data in the DB, as well as a GUI for easy navigation of all the users data.
