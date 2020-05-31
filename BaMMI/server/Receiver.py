@@ -2,13 +2,14 @@ import json
 from flask import jsonify, request
 from google.protobuf.json_format import MessageToDict
 import numpy as np
-from ..utils.BaMMI_pb2 import Snapshot, User
 from ..utils import UtilFunctions
+from ..utils.BaMMI_pb2 import Snapshot, User
+from ..utils.Constants import rabbit_mq_url
 from ..utils.PubSuber import PubSuber
 
 
 def publish_to_message_queue(user_data, snapshot, binary_type_data, array_type_data,
-                             message_queue_url='rabbitmq://127.0.0.1:5672/'):
+                             message_queue_url=rabbit_mq_url):
     data_to_publish = prepare_data_for_queue(user_data['user_id'], snapshot, binary_type_data, array_type_data)
     publisher = PubSuber(message_queue_url)
     publisher.init_exchange('snapshots_data', exchange_type='topic')

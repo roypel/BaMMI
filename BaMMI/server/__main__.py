@@ -3,10 +3,11 @@ import click
 from .Receiver import publish_to_message_queue
 from .Server import run_server
 from ..utils.CLITemplate import log, main
+from ..utils.Constants import rabbit_mq_url
 
 
 @main.command('run-server')
-@click.argument('url', default='rabbitmq://127.0.0.1:5672/', type=str)
+@click.argument('url', default=rabbit_mq_url, type=str)
 @click.option('-h', '--host', default='127.0.0.1', type=str)
 @click.option('-p', '--port', default=8000, type=int)
 def run(url, host='127.0.0.1', port=8000):
