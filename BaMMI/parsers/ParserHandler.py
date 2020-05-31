@@ -68,3 +68,8 @@ class ParserHandler:
     def _forward_parsing(self, field_name, data, publisher):
         parser_results = json.dumps(self.parse(field_name, data))
         publisher.publish_message(parser_results, field_name)
+
+
+def run_parser(field_name, mq_url):
+    ph = ParserHandler()
+    ph.run_parser(field_name, mq_url)

@@ -51,16 +51,6 @@ class MongoDriver:
                                   f'snapshots.$.{field_name}': snapshot_data[field_name]
                               }
                       }
-                      ),
-            # If an array element doesn't exist, add it. Won't conflict with the update a step before
-            UpdateOne({'user_id': user_id},
-                      {
-                          '$addToSet': {
-                              'snapshots': {
-                                  'datetime': snapshot_data['datetime'],
-                                  field_name: snapshot_data[field_name]
-                              }
-                          }
-                      })
+                      )
         ]
         self.table_name.bulk_write(operations)

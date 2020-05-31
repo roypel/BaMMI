@@ -1,4 +1,4 @@
-from ..server.APIServer import FlaskWrapper
+from ..utils.APIServer import FlaskWrapper
 from ..server.Receiver import Receiver, publish_to_message_queue
 
 
