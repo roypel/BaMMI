@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: BaMMI
+      MONGO_INITDB_ROOT_PASSWORD: 1337
+    volumes:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
+
+  rabbitmq:
+    image: rabbitmq:3
+    command: rabbitmq-server
+    ports:
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+  server:
+    build:
+      context: .
+      dockerfile: BaMMI/server/Dockerfile.Server
+    restart: on-failure
+    ports:
+    - "8000:8000"
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+      - parser
+    volumes:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
+
+  parser:
+    build:
+      context: .
+      dockerfile: BaMMI/parsers/Dockerfile.Parsers
+    restart: on-failure
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+      - saver
+    volumes:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
+
+  saver:
+    build:
+      context: .
+      dockerfile: BaMMI/saver/Dockerfile.Saver
+    restart: on-failure
+    links:
+      - rabbitmq
+      - mongo
+    depends_on:
+      - rabbitmq
+      - mongo
+    volumes:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
+
+  api:
+    build:
+      context: .
+        dockerfile: BaMMI/saver/Dockerfile.API
+        restart: on-failure
+        links:
+          - mongo
+        depends_on:
+          - mongo
+        volumes:
+          - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage

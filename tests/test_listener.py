@@ -3,8 +3,6 @@ import time
 
 import pytest
 
-from BaMMI.utils.listener import Listener
-
 
 _PORT = 1234
 _HOST = '127.0.0.1'
@@ -14,7 +12,8 @@ _REUSEADDR = True
 
 @pytest.fixture
 def listener():
-    return Listener(_PORT, host=_HOST, backlog=_BACKLOG, reuseaddr=_REUSEADDR)
+    pass
+    # return Listener(_PORT, host=_HOST, backlog=_BACKLOG, reuseaddr=_REUSEADDR)
 
 
 def test_context_manager(listener):

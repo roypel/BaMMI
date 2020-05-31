@@ -1,2 +1,1 @@
-from .connection import Connection
-from .listener import Listener
+from .Connection import get_from_url, post_from_url

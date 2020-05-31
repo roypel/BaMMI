@@ -1,3 +1,2 @@
-from .server import run as run_webserver
-from .thought import Thought
-from .client import upload as upload_thought
+from BaMMI.server.Server import run_server as run_server
+from BaMMI.client.Reader import Reader

@@ -1,0 +1,14 @@
+FROM python:3.8
+
+WORKDIR /usr/src/BaMMI
+
+COPY ./requirements.txt ./
+RUN pip install -r requirements.txt
+
+COPY ./BaMMI/utils ./BaMMI/utils/
+COPY ./BaMMI/parsers ./BaMMI/parsers/
+
+RUN chmod +x ./BaMMI/parsers/ParserHandler.py
+RUN chmod +x ./BaMMI/parsers/run_parsers.sh
+
+CMD ["./BaMMI/parsers/run_parsers.sh"]

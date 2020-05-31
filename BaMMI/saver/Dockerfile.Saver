@@ -1,0 +1,11 @@
+FROM python:3.8
+
+WORKDIR /usr/src/BaMMI
+
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY ./BaMMI/utils ./BaMMI/utils/
+COPY ./BaMMI/saver ./BaMMI/saver/
+
+CMD ["python", "-m", "BaMMI.saver", "-t", "run-saver", "mongodb://BaMMI:1337@mongo:27017", "rabbitmq://rabbitmq:5672"]

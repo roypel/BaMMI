@@ -3,9 +3,6 @@ import struct
 
 import pytest
 
-from BaMMI.thought import Thought
-
-
 user_id = 1
 datetime = dt.datetime(2000, 1, 1, 10, 0)
 thought = "I'm hungry"

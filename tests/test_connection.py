@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from BaMMI.utils.connection import Connection
+from BaMMI.utils.Connection import Connection
 
 
 _PORT = 1234
