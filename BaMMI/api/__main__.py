@@ -9,8 +9,8 @@ from ..utils.Constants import mongodb_url
 @click.option('-h', '--host', default='127.0.0.1', type=str)
 @click.option('-p', '--port', default=5000, type=int)
 @click.option('-d', '--database', default=mongodb_url, type=str)
-def run(host='127.0.0.1', port=5000, url=mongodb_url):
-    log(run_api_server(host, port, url))
+def run(host='127.0.0.1', port=5000, database=mongodb_url):
+    log(run_api_server(host, port, database))
 
 
 if __name__ == '__main__':
