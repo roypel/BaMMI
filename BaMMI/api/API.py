@@ -12,7 +12,7 @@ db = None
 def run_api_server(host='127.0.0.1', port=5000, database_url=mongodb_url):
     global db
     db = DBWrapper(database_url)
-    app = FlaskWrapper('server')
+    app = FlaskWrapper('api')
     app.register_blueprint(bp)
     app.run(host=host, port=port)
 

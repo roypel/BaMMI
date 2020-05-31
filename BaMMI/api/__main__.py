@@ -15,7 +15,7 @@ def run(host='127.0.0.1', port=5000, url=mongodb_url):
 
 if __name__ == '__main__':
     try:
-        main(prog_name='server', obj={})
+        main(prog_name='api', obj={})
     except Exception as error:
         log(f'ERROR: {error}')
         sys.exit(1)
