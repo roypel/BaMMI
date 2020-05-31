@@ -13,18 +13,14 @@ def save_data_to_file(data, file_path, data_type=''):
     ensure_dir(file_path)
     with open(file_path, f'w{data_type}') as f:
         f.write(data)
-    import sys
-    print(f'Wrote data to {file_path}', file=sys.stderr)
 
 
 def get_true_relative_path(file_path, relative_path):
-    print(f"WEEEEEEEELLLLLLL WE GET FP:{file_path} amd RP:{relative_path}")
-    return os.path.join(os.path.dirname(os.path.realpath(file_path)), relative_path)
+    return os.path.normpath(os.path.join(os.path.dirname(os.path.realpath(file_path)), relative_path))
 
 
 def build_path_for_files_from_data(base_path, user_id, snapshot_timestamp, filename):
-    print(f"GOT THIS: BP:{base_path}, UID:{user_id}, SNT:{snapshot_timestamp}, fN:{filename}")
-    return os.path.join(base_path, user_id, snapshot_timestamp, filename)
+    return os.path.normpath(os.path.join(base_path, user_id, snapshot_timestamp, filename))
 
 
 def find_driver(drivers, url):
