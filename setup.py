@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='BaMMI',
-    version='0.1.0',
+    version='0.9.9',
     author='Roy Peleg',
     description='Basic Mind-Machine Interface.',
     packages=find_packages(),

@@ -41,7 +41,7 @@ def prepare_data_for_queue(user_id, data, binary_type_data, array_type_data):
     for field in file_paths_data:
         data_to_publish[field]['data'] = file_paths_data[field]
     return data_to_publish
-    # TODO: In case data comes in other options, convert it to a valid json
+    # TODO: In case data comes in other formats, convert it to a valid json
 
 
 class Receiver:
