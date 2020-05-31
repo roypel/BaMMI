@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo docker-compose up -d
-cd ../tests
+cd ./tests
 while [ $? -ne 0 ]; do
     pytest
 done
