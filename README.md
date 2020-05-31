@@ -89,3 +89,17 @@ as published to the MQ, will return the processed result.
 
 As a CLI, the commands `parse` and `run-parser` are available through `python -m cortex.parsers`. While `parse` gets a parser name
 and a path to raw data as given from the MQ, process it and returns the results as if they were sent to the MQ,
+basically running the parser only once, using `run-parser` with a parser name and a MQ URL (take a look at the server section
+for details) will attach the parser to the mQ, consuming raw data, processing and publishing it's result to a dedicated topic in the MQ.
+
+There are 4 parsers provided, processing the user *feelings*, *pose*, *color_image* and *depth_image*.
+But what if you want to process a new type of data?
+ 
+ Well that's easy!
+ 
+ All you need to do, is adding a file to _`BaMMI/BaMMI/parsers/all_parsers`_, making sure there's a function named *`parse_*`*
+ and that it has a `field` attribute with the name of the field it process from the snapshot data.
+ 
+ ### Saver
+ 
+ 

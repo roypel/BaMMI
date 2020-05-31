@@ -69,7 +69,7 @@ services:
   api:
     build:
       context: .
-        dockerfile: BaMMI/saver/Dockerfile.API
+        dockerfile: BaMMI/api/Dockerfile.API
         restart: on-failure
         links:
           - mongo
