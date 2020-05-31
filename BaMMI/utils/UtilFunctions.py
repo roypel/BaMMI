@@ -13,6 +13,7 @@ def save_data_to_file(data, file_path, data_type=''):
     ensure_dir(file_path)
     with open(file_path, f'w{data_type}') as f:
         f.write(data)
+    print(f'Wrote data to {file_path}')
 
 
 def get_true_relative_path(file_path, relative_path):

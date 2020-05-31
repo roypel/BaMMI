@@ -17,11 +17,6 @@ def publish_to_message_queue(user_data, snapshot, binary_type_data, array_type_d
                               '.'.join(data_to_publish.keys()))
 
 
-def save_data_to_file(context, data, file_name, data_type=''):
-    path = context.build_path_for_files_from_data(file_name)
-    context.save_data_to_file(data, path, data_type)
-
-
 def convert_binary_fields_to_files(user_id, data, binary_type_data, array_type_data):
     field_to_file_path = {}
     for field in data.ListFields():
