@@ -11,7 +11,7 @@ from ..utils.PubSuber import PubSuber
 def publish_to_message_queue(user_data, snapshot, binary_type_data, array_type_data,
                              message_queue_url=rabbit_mq_url):
     data_to_publish = prepare_data_for_queue(user_data['user_id'], snapshot, binary_type_data, array_type_data)
-    publisher = PubSuber(message_queue_url)
+    publisher = PubSuber(message_queue_url)  # TODO: Make it so we don't connect to the MQ each time, wrap in a class?
     publisher.init_exchange('snapshots_data', exchange_type='topic')
     publisher.publish_message(json.dumps({'user_data': user_data, 'snapshot_data': data_to_publish}),
                               '.'.join(data_to_publish.keys()))
