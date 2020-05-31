@@ -1,12 +1,12 @@
 import sys
 import click
 from .Saver import Saver
-from ..utils.Constants import rabbit_mq_url
+from ..utils.Constants import mongodb_url
 from ..utils.CLITemplate import log, main
 
 
 @main.command()
-@click.option('-d', '--database', default=rabbit_mq_url, type=str)
+@click.option('-d', '--database', default=mongodb_url, type=str)
 @click.argument('topic-name', type=str)
 @click.argument('raw-data-path', type=click.Path(exists=True))
 def save(database, topic_name, raw_data_path):

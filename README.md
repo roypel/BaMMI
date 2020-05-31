@@ -102,4 +102,9 @@ But what if you want to process a new type of data?
  
  ### Saver
  
+ The saver is available as `BaMMI.saver`, exposing the `Saver` class, that receives a DB url on it's instantiation, and
+ supports the `save` function that given a topic name from the MQ and data in the format that is published to the MQ to this topic, 
+ saves the data to the DB.
  
+ As with the parsers, the CLI has 2 modes - running `python -m cortex.saver` with the `save` command, that given 
+ a DB url (optional with the `-d` or `--database` flags, defaults to )
