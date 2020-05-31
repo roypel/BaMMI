@@ -69,11 +69,11 @@ services:
   api:
     build:
       context: .
-        dockerfile: BaMMI/api/Dockerfile.API
-        restart: on-failure
-        links:
-          - mongo
-        depends_on:
-          - mongo
-        volumes:
-          - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
+      dockerfile: BaMMI/api/Dockerfile.API
+    restart: on-failure
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    volumes:
+      - ./BaMMI/storage:/usr/src/BaMMI/BaMMI/storage
