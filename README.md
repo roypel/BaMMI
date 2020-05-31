@@ -38,7 +38,7 @@ The five components are a client, a server, parser handler, saver
 While the components can work independently, and might also integrate
  with different services that aren't provided in this package, there's a provided `run-pipeline.sh` script
  that will orchestrate all the needed backend so you could just use the client 
- (simply use `python -m BaMMI.client upload-sample /path/to/snapshot/data` after installation) to upload some data and 
+ (simply use `python -m BaMMI.client upload-sample /path/to/snapshot/data` after installation finishes) to upload some data and 
  see how it all works.
 
 Note that all the CLI commands accept the `-q` or `--quiet` flag to suppress output, and the `-t`

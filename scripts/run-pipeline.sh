@@ -1,9 +1,10 @@
 #!/bin/bash
 
-sudo docker-compose up -d --build
+sudo docker-compose up -d
 cd ./tests
 pytest
 while [ $? -ne 0 ]; do
-    pytest
+  sleep 30
+  pytest
 done
 cd ..
