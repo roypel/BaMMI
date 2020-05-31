@@ -6,13 +6,13 @@ from ..utils.UtilFunctions import build_path_for_files_from_data
 
 
 bp = Blueprint('serve_data', __name__, url_prefix='/users')
-db = DBWrapper('')
+db = None
 
 
 def run_api_server(host='127.0.0.1', port=5000, database_url=mongodb_url):
     global db
     db = DBWrapper(database_url)
-    app = FlaskWrapper('server')
+    app = FlaskWrapper('api')
     app.register_blueprint(bp)
     app.run(host=host, port=port)
 

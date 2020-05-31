@@ -3,16 +3,25 @@ from setuptools import setup, find_packages
 
 setup(
     name='BaMMI',
-    version='0.1.0',
+    version='0.1.9',
     author='Roy Peleg',
     description='Basic Mind-Machine Interface.',
-    packages=find_packages(),
-    install_requires=['click', 'flask'],
+    packages=find_packages(where='BaMMI'),
+    package_dir={"": "BaMMI"},
+    install_requires=[
+        'Click==7.0',
+        'codecov==2.0.15',
+        'Flask==1.1.1',
+        'matplotlib==3.2.1',
+        'numpy==1.18.2',
+        'pika==1.1.0',
+        'Pillow==7.1.1',
+        'protobuf==3.11.3',
+        'pytest==5.3.2',
+        'pytest-cov==2.8.1',
+        'pymongo==3.10.1',
+        'requests==2.23.0'
+    ],
     tests_require=['pytest', 'pytest-cov'],
-    entry_points='''
-        [console_scripts]
-        run_webserver=BaMMI.website:cli
-        upload_thought=BaMMI.client:cli
-        run_server=BaMMI.server:cli
-    '''
+    python_requires='>=3.8',
 )
