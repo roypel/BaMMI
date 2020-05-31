@@ -60,7 +60,7 @@ class ParserHandler:
         subscriber.bind_queue(binding_keys=f'#.{field_name}.#')
         publisher = PubSuber(mq_url)
         publisher.init_exchange('parsers_results', exchange_type='topic')
-        print(f"Starting to listen to {field_name} on {mq_url}...")
+        print(f"Starting to listen to {field_name} on {mq_url}...")  # TODO: Put in Logger.Debug
         subscriber.consume_messages(
             lambda ch, method, properties, body: self._forward_parsing(field_name, body, publisher)
         )

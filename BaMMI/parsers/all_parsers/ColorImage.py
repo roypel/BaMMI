@@ -8,7 +8,8 @@ def parse_color_image(context, snapshot):
     size = snapshot['color_image']['width'], snapshot['color_image']['height']
     image_data_path = snapshot['color_image']['data']
     import os
-    print(f"DATA IS HERE: {os.listdir(os.path.dirname(image_data_path))}")
+    print(f"WE're HERE: {os.getcwd()} we see: {os.listdir()} and above us: {os.listdir('..')}")
+    print(f"DATA IS HERE: {os.listdir(os.path.dirname(f'{image_data_path}/../../..'))}")
     with open(image_data_path, 'rb') as f:
         image_data = f.read()
     image = PILIm.new('RGB', size)
