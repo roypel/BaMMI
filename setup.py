@@ -16,7 +16,7 @@ setup(
         'numpy==1.18.2',
         'pika==1.1.0',
         'Pillow==9.0.0',
-        'protobuf==3.11.3',
+        'protobuf==3.15.0',
         'pytest==5.3.2',
         'pytest-cov==2.8.1',
         'pymongo==3.10.1',
