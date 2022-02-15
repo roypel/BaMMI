@@ -13,7 +13,7 @@ setup(
         'codecov==2.0.15',
         'Flask==1.1.1',
         'matplotlib==3.2.1',
-        'numpy==1.18.2',
+        'numpy==1.21.0',
         'pika==1.1.0',
         'Pillow==9.0.0',
         'protobuf==3.15.0',
