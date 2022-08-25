@@ -10,7 +10,7 @@ setup(
     package_dir={"": "BaMMI"},
     install_requires=[
         'Click==7.0',
-        'codecov==2.0.15',
+        'codecov==2.0.16',
         'Flask==1.1.1',
         'matplotlib==3.2.1',
         'numpy==1.18.2',
