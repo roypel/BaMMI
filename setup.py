@@ -15,7 +15,7 @@ setup(
         'matplotlib==3.2.1',
         'numpy==1.18.2',
         'pika==1.1.0',
-        'Pillow==9.0.0',
+        'Pillow==9.0.1',
         'protobuf==3.15.0',
         'pytest==5.3.2',
         'pytest-cov==2.8.1',
